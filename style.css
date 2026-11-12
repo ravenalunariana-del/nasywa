@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #FFFFFF;
+  color: #1E293B;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+}
+
+/* Zero-gravity floating animations */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-1.5deg);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-15px) scale(1.02);
+  }
+}
+
+/* Orbiting satellite animation */
+@keyframes orbitRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Twinkling star animation */
+@keyframes twinkleStar {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.15);
+  }
+}
+
+/* Background orbital drift */
+@keyframes orbitDrift {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-18px) translateX(8px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-orbit {
+  animation: orbitRotate 20s linear infinite;
+}
+
+.animate-orbit-slow {
+  animation: orbitRotate 35s linear infinite;
+}
+
+.animate-twinkle {
+  animation: twinkleStar 3.5s ease-in-out infinite;
+}
+
+.animate-drift {
+  animation: orbitDrift 10s ease-in-out infinite;
+}
+
+/* Interactive Card Hover Lift */
+.card-hover-lift {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 35px -10px rgba(99, 102, 241, 0.12), 0 8px 16px -4px rgba(14, 165, 233, 0.08);
+}
+
+/* Subtle Orbit Line styles */
+.orbit-line {
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+
+.orbit-line-indigo {
+  border: 1px dashed rgba(99, 102, 241, 0.35);
+  border-radius: 9999px;
+}
+
+/* ==========================================================
+   5. 3D VISUALS & WEBGL CANVAS STYLING
+   ========================================================== */
+#space-3d-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#space-3d-bg canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* 3D Scene Containers */
+.webgl-3d-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.webgl-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+  touch-action: none;
+}
+
+/* 3D Glassmorphism Cards */
+.card-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+.card-3d-inner {
+  transform: translateZ(24px);
+  transform-style: preserve-3d;
+}
+
+.badge-3d {
+  box-shadow: 0 8px 18px -4px rgba(99, 102, 241, 0.25);
+  transform: translateZ(30px);
+}
+

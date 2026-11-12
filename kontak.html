@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontak & Hubungi | Nasywa Ayyatul Husna - SMK Telkom Malang</title>
+  <meta name="description" content="Kirimkan pesan dan jalin komunikasi dengan Nasywa Ayyatul Husna melalui formulir pesan resmi.">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            space: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              800: '#1E293B',
+              900: '#0F172A',
+            },
+            orbit: {
+              blue: '#38BDF8',
+              indigo: '#6366F1',
+              violet: '#A855F7',
+              gold: '#FBBF24',
+              rose: '#FB7185',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Three.js 3D WebGL Engine CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-white text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- Latar Belakang Bintang & Partikel 3D WebGL (Three.js Starfield) -->
+  <div id="space-3d-bg" aria-hidden="true"></div>
+
+  <!-- Hiasan Partikel Latar Belakang Melayang (Anti-Gravity Space & Orbit) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+    <div class="absolute top-24 left-16 w-3 h-3 rounded-full bg-indigo-300 opacity-60 animate-twinkle"></div>
+    <div class="absolute top-1/2 right-12 w-2.5 h-2.5 rounded-full bg-sky-300 opacity-50 animate-twinkle animation-delay-1000"></div>
+    <div class="absolute bottom-36 left-1/3 w-3 h-3 rounded-full bg-purple-300 opacity-50 animate-twinkle animation-delay-2000"></div>
+    
+    <div class="absolute top-28 right-8 sm:right-20 opacity-40 animate-float pointer-events-none">
+      <svg class="w-16 h-16" viewBox="0 0 70 70" fill="none">
+        <circle cx="35" cy="35" r="16" fill="#F472B6"/>
+        <ellipse cx="35" cy="35" rx="30" ry="8" stroke="#FDE047" stroke-width="2" transform="rotate(-22 35 35)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Mode Edit Teks Banner -->
+  <div id="edit-mode-banner" class="hidden sticky top-0 z-50 bg-indigo-50 border-b border-indigo-200 px-6 py-2.5 text-xs text-indigo-900 shadow-sm animate-in fade-in">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+        <span><strong>Mode Edit Teks Aktif:</strong> Klik langsung pada teks dengan garis putus-putus untuk mengubah isinya. Teks otomatis tersimpan di peramban Anda.</span>
+      </div>
+      <button id="reset-all-text" class="px-3 py-1 bg-white hover:bg-slate-100 text-indigo-700 border border-indigo-200 rounded-lg font-medium transition-colors text-[11px] cursor-pointer">
+        Reset ke Teks Bawaan
+      </button>
+    </div>
+  </div>
+
+  <!-- Navbar Konsisten -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo & Nama Nasywa Ayyatul Husna -->
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-400 via-indigo-500 to-purple-500 p-0.5 shadow-sm group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-indigo-600 animate-orbit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="6"/>
+              <ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(-30 12 12)"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span data-editable="brand-name" class="font-heading font-bold text-lg text-slate-900 block leading-tight tracking-tight">
+            Nasywa Ayyatul Husna
+          </span>
+          <span class="text-[10px] uppercase font-mono tracking-widest text-indigo-600 font-semibold block">
+            TKJ &bull; SMK Telkom Malang
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden md:flex items-center gap-1.5 bg-slate-50 p-1.5 rounded-full border border-slate-200/80 shadow-xs">
+        <a href="index.html" class="nav-link px-5 py-2 rounded-full text-xs font-medium tracking-wide uppercase text-slate-600 transition-all hover:text-indigo-600">
+          Utama
+        </a>
+        <a href="profil.html" class="nav-link px-5 py-2 rounded-full text-xs font-medium tracking-wide uppercase text-slate-600 transition-all hover:text-indigo-600">
+          Profil
+        </a>
+        <a href="kontak.html" class="nav-link px-5 py-2 rounded-full text-xs font-medium tracking-wide uppercase transition-all hover:text-indigo-600">
+          Kontak
+        </a>
+      </nav>
+
+      <!-- Right Controls: Mode Edit Teks & CTA -->
+      <div class="hidden sm:flex items-center gap-3">
+        <button id="toggle-edit-mode" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase border border-slate-200 bg-slate-50 hover:border-indigo-400 text-slate-700 transition-all cursor-pointer shadow-xs">
+          <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          <span>Mode Edit Teks</span>
+        </button>
+
+        <a href="kontak.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold tracking-wider uppercase shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5">
+          <span>Kirim Pesan</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Toggle Navigation">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-6 py-6 shadow-xl animate-in fade-in duration-200">
+      <div class="flex flex-col gap-2">
+        <a href="index.html" class="px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50">Halaman Utama</a>
+        <a href="profil.html" class="px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50">Halaman Profil</a>
+        <a href="kontak.html" class="px-4 py-3 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700">Halaman Kontak</a>
+        <div class="pt-4 border-t border-slate-100 flex flex-col gap-2">
+          <a href="kontak.html" class="w-full py-3 rounded-xl bg-indigo-600 text-white text-xs font-semibold uppercase tracking-wider text-center shadow-sm">
+            Kirim Pesan &bull; Kontak
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content: Halaman Kontak -->
+  <main class="flex-1 relative z-10">
+    
+    <!-- Bagian Ajakan Kolaborasi & Komunikasi -->
+    <section class="max-w-7xl mx-auto px-6 sm:px-10 pt-12 md:pt-16 pb-16">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+        
+        <!-- Kolom Teks Ajakan Kolaborasi -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sky-200 bg-sky-50 text-sky-800 text-xs font-mono uppercase tracking-wider font-semibold">
+            <span class="w-2 h-2 rounded-full bg-sky-500 animate-ping"></span>
+            <span>Saluran Komunikasi Terbuka</span>
+          </div>
+
+          <h1 class="font-heading text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight">
+            Mari Bertukar <span class="text-indigo-600">Gagasan &amp; Inspirasi</span> Teknologi.
+          </h1>
+
+          <p data-editable="contact-desc" class="text-slate-600 text-base sm:text-lg leading-relaxed font-light">
+            Senang bisa terhubung dengan Anda! Baik untuk diskusi seputar jaringan komputer, pemrograman, informasi seputar SMK Telkom Malang, maupun peluang belajar bersama di bidang cybersecurity, silakan tinggalkan pesan melalui formulir di bawah ini.
+          </p>
+
+          <!-- Tautan Tombol Akun Media Sosial Resmi -->
+          <div class="pt-4 space-y-3">
+            <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold block">
+              Tautan Media Sosial:
+            </span>
+
+            <div class="flex flex-wrap gap-2.5">
+              <!-- LinkedIn -->
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-xs font-medium text-slate-700 hover:text-indigo-600 transition-all shadow-2xs group">
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.738-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <span>LinkedIn</span>
+                <span class="text-[10px] text-slate-400 group-hover:translate-x-0.5 transition-transform">&nearr;</span>
+              </a>
+
+              <!-- GitHub -->
+              <a href="https://github.com" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-xs font-medium text-slate-700 hover:text-indigo-600 transition-all shadow-2xs group">
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                <span>GitHub</span>
+                <span class="text-[10px] text-slate-400 group-hover:translate-x-0.5 transition-transform">&nearr;</span>
+              </a>
+
+              <!-- Instagram -->
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-xs font-medium text-slate-700 hover:text-indigo-600 transition-all shadow-2xs group">
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span>Instagram</span>
+                <span class="text-[10px] text-slate-400 group-hover:translate-x-0.5 transition-transform">&nearr;</span>
+              </a>
+
+              <!-- X / Twitter -->
+              <a href="https://x.com" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-xs font-medium text-slate-700 hover:text-indigo-600 transition-all shadow-2xs group">
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <span>X (Twitter)</span>
+                <span class="text-[10px] text-slate-400 group-hover:translate-x-0.5 transition-transform">&nearr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Kepatuhan Privasi: Catatan Jelas Bebas Kontak Fisik/Digital -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-500 flex items-start gap-2.5">
+            <svg class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span><strong>Privasi Terjaga:</strong> Seluruh komunikasi aman dilakukan melalui formulir pesan resmi di halaman ini tanpa mempublikasikan nomor telepon, WhatsApp, maupun alamat fisik.</span>
+          </div>
+        </div>
+
+        <!-- Kolom Globe Sinyal 3D Interaktif Komunikasi Luar Angkasa -->
+        <div class="lg:col-span-6 relative flex flex-col items-center justify-center">
+          
+          <!-- Garis Orbit Melingkar -->
+          <div class="absolute w-80 h-80 sm:w-[400px] sm:h-[400px] rounded-full orbit-line-indigo animate-orbit-slow pointer-events-none">
+            <div class="w-3.5 h-3.5 rounded-full bg-indigo-500 border-2 border-white shadow-xs absolute -top-1.5 left-1/2 -translate-x-1/2"></div>
+          </div>
+
+          <!-- Kontainer Stage 3D Globe Komunikasi -->
+          <div class="relative z-10 w-full max-w-md p-6 rounded-3xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xl card-3d card-3d-tilt">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping"></span>
+                <span class="font-mono font-semibold text-slate-800 text-[11px] tracking-wider uppercase">Satelit 3D Cyber Signal</span>
+              </div>
+              <span class="text-[11px] font-mono text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full font-semibold">Active Node</span>
+            </div>
+
+            <!-- Viewport Canvas 3D Three.js -->
+            <div id="contact-3d-globe-container" class="webgl-3d-container w-full h-72 sm:h-80 relative overflow-hidden rounded-2xl bg-gradient-to-b from-slate-50/50 to-indigo-50/30">
+              <!-- Hint Interaktivitas Kursor -->
+              <div class="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none bg-slate-900/70 backdrop-blur-md text-white text-[11px] font-mono px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm opacity-80 z-20">
+                <svg class="w-3.5 h-3.5 text-sky-300 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+                <span>Klik &amp; Geser untuk Putar Globe 3D</span>
+              </div>
+            </div>
+
+            <div class="mt-4 py-2 px-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs font-mono text-slate-500">
+              <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Transmisi Frekuensi Orbit</span>
+              </span>
+              <span class="text-indigo-600 font-semibold">24/7 Standby</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Formulir Pengiriman Pesan Langsung di Website -->
+    <section class="max-w-4xl mx-auto px-6 sm:px-10 pb-20">
+      <div class="p-8 sm:p-12 rounded-3xl bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xl card-3d card-3d-tilt space-y-8">
+        
+        <div class="text-center space-y-2 max-w-lg mx-auto card-3d-inner">
+          <span class="text-xs font-mono uppercase tracking-widest text-indigo-600 font-semibold">
+            Formulir Pesan
+          </span>
+          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-900">
+            Kirimkan Pesan Anda Langsung ke Nasywa
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 font-light">
+            Silakan isi rincian nama, subjek, dan pesan Anda. Pesan akan tersimpan langsung di sistem secara real-time.
+          </p>
+        </div>
+
+        <form id="contact-form" class="space-y-6">
+          <!-- Input Nama Pengirim -->
+          <div class="space-y-2">
+            <label for="sender-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+              Nama Pengirim
+            </label>
+            <input 
+              type="text" 
+              id="sender-name" 
+              required 
+              placeholder="Contoh: Arya Danendra"
+              class="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all shadow-xs"
+            >
+          </div>
+
+          <!-- Input Subjek -->
+          <div class="space-y-2">
+            <label for="sender-subject" class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+              Subjek
+            </label>
+            <input 
+              type="text" 
+              id="sender-subject" 
+              required 
+              placeholder="Contoh: Diskusi Jaringan Komputer & Subnetting"
+              class="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all shadow-xs"
+            >
+          </div>
+
+          <!-- Input Pesan -->
+          <div class="space-y-2">
+            <label for="sender-message" class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+              Pesan
+            </label>
+            <textarea 
+              id="sender-message" 
+              rows="5" 
+              required 
+              placeholder="Tuliskan pesan, pertanyaan, atau tanggapan Anda di sini..."
+              class="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all shadow-xs resize-y"
+            ></textarea>
+          </div>
+
+          <!-- Tombol Kirim Pesan -->
+          <div>
+            <button 
+              type="submit" 
+              class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-semibold text-xs tracking-widest uppercase transition-all shadow-md hover:shadow-xl flex items-center justify-center gap-2.5 cursor-pointer"
+            >
+              <span>Kirimkan Pesan Sekarang</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- AREA KHUSUS: DASHBOARD KOTAK MASUK PESAN (Tombol Toggle Rahasia) -->
+    <section class="max-w-4xl mx-auto px-6 sm:px-10 pb-24">
+      <div class="border-t border-slate-200 pt-8 text-center space-y-6">
+        
+        <!-- Tombol Toggle Rahasia "Lihat Pesan Masuk" -->
+        <button 
+          id="toggle-inbox-btn"
+          class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-indigo-700 text-xs font-semibold uppercase tracking-wider transition-all border border-slate-300 shadow-xs cursor-pointer"
+          title="Klik untuk membuka atau menyembunyikan Dashboard Pesan Masuk"
+        >
+          <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+          <span>Lihat Pesan Masuk (Admin)</span>
+          <span id="inbox-badge-count" class="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] flex items-center justify-center font-bold">
+            0
+          </span>
+        </button>
+
+        <!-- Dashboard Kontainer -->
+        <div id="inbox-dashboard-container" class="hidden text-left bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 animate-in fade-in duration-300">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-indigo-600 font-bold">
+                  Sistem Kotak Masuk Real-Time
+                </span>
+              </div>
+              <h3 class="font-heading text-2xl font-bold text-slate-900 pt-0.5">
+                Dashboard Pesan Pengunjung
+              </h3>
+              <p class="text-xs text-slate-500 font-light">
+                Seluruh pesan yang dikirimkan melalui formulir di atas tersimpan dan terbaca di sini.
+              </p>
+            </div>
+
+            <button 
+              id="clear-inbox-btn"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-colors cursor-pointer w-fit"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              <span>Kosongkan Dashboard</span>
+            </button>
+          </div>
+
+          <!-- Daftar Pesan yang Masuk -->
+          <div id="inbox-messages-list" class="space-y-4">
+            <!-- Pesan akan di-render di sini oleh JavaScript -->
+          </div>
+
+          <!-- Footer Dashboard -->
+          <div class="pt-4 border-t border-slate-200 text-center text-xs text-slate-400 font-mono">
+            <span>✦ Pesan tersimpan secara lokal di browser peramban Anda ✦</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Pop-Up Notifikasi "Pesan Terkirim!" Interaktif -->
+  <div id="message-modal" class="hidden fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 sm:p-8 shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-200">
+      
+      <div class="w-16 h-16 rounded-full bg-emerald-50 border-2 border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
+        <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </div>
+
+      <div class="space-y-2">
+        <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono uppercase font-bold tracking-wider">
+          Transmisi Berhasil
+        </span>
+        <h3 class="font-heading text-2xl font-bold text-slate-900">
+          Pesan Terkirim!
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-light">
+          Terima kasih, <strong id="modal-summary-name" class="text-slate-900 font-semibold"></strong>. Pesan Anda mengenai <span id="modal-summary-subject" class="text-indigo-600 font-medium"></span> telah berhasil dicatat ke dalam Dashboard Pesan Masuk Nasywa Ayyatul Husna.
+        </p>
+      </div>
+
+      <div class="pt-2">
+        <button 
+          id="close-modal-btn"
+          class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs tracking-wider uppercase transition-all shadow-md cursor-pointer"
+        >
+          Tutup &amp; Lanjutkan
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer Konsisten -->
+  <footer class="bg-slate-50 border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 py-12">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-200/80">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="6"/>
+              <ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(-30 12 12)"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-heading font-bold text-slate-900 text-sm block">Nasywa Ayyatul Husna</span>
+            <span class="text-[10px] text-slate-400 font-mono tracking-wider block">Pelajar TKJ &bull; SMK Telkom Malang</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6 text-xs text-slate-600 font-medium">
+          <a href="index.html" class="hover:text-indigo-600 transition-colors">Utama</a>
+          <a href="profil.html" class="hover:text-indigo-600 transition-colors">Profil</a>
+          <a href="kontak.html" class="hover:text-indigo-600 transition-colors">Kontak</a>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+        <p>&copy; 2026 Nasywa Ayyatul Husna. Seluruh hak cipta dilindungi undang-undang.</p>
+        <p class="font-mono text-[11px] text-slate-400">Light Theme &bull; Space &amp; Orbit Aesthetic</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="assets/js/main.js"></script>
+  <!-- 3D Interactive WebGL & Parallax Script -->
+  <script src="assets/js/space-3d.js"></script>
+</body>
+</html>

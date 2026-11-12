@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/profil", "destination": "/profil.html" },
+    { "source": "/kontak", "destination": "/kontak.html" }
+  ]
+}
